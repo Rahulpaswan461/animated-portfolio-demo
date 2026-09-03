@@ -1,0 +1,112 @@
+@import "../../app.scss";
+
+.portfolio{
+//we are just start styling to our component
+   position: relative;
+    .progress{
+     position: sticky;
+     top:0;
+     left:0;
+     padding-top: 50px;
+     text-align: center;
+     color: orange;
+     font-size: 36px;
+
+    @include mobile{
+        //because if we use bottom zero then the container fixed for a particular container
+        padding-top: calc(100vh - 100px);
+        font-size: 24px;
+
+    }
+
+     .progressBar{
+       height: 10px;
+       background-color: white;
+       }
+
+    }
+   
+}
+.container{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    margin-top: 100px;
+    .wrapper{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 990px;
+        height: 100%;
+        margin: auto;
+        gap:50px;
+
+        @include mobile{
+            flex-direction: column;
+        }
+     .imageContainer{
+        flex:1;
+        height: 40%;
+        width: 100%;
+        margin-top: 50px;
+
+        @include mobile{
+          width: 100%;
+          max-height: 300px;
+        }
+        img{
+            width:400px;
+            height: 100%;
+            object-fit: cover;
+            background-size: cover;
+            background-position: center;
+            border-radius: 5px;
+            @include mobile{
+                object-fit: contain;
+            }
+        }
+     }
+    .textContainer{
+        flex:1;
+        display: flex;
+        flex-direction: column;
+        gap:10px;
+        @include mobile{
+            transform: none !important;
+            padding: 10px;
+            align-items: center;
+            text-align: center;
+        }
+
+        h2{
+            font-size: 45px;
+            @include mobile{
+                font-size: 30px;
+            }
+        }
+        p{
+            font-size: 18px;
+            color: gray;
+        
+            @include mobile{
+                font-size: 16px;
+            }
+        }
+        button,a{
+            padding: 10px;
+            background-color: orange;
+            width: 300px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+          
+            font-size: 15px;
+        }
+        
+       
+    }
+}
+}
