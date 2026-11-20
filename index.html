@@ -1,10 +1,117 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100;0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;0,9..40,900;0,9..40,1000;1,9..40,100;1,9..40,1000&display=swap" rel="stylesheet"> 
-    <title>Rahul Portfolio</title>
+    <meta name="theme-color" content="#0c0c0b" />
+
+    <script>
+      // Resolve the theme before first paint so there is no flash of the wrong
+      // one. Stored choice wins; otherwise follow the OS.
+      (function () {
+        try {
+          var stored = localStorage.getItem("rp-theme");
+          var theme =
+            stored ||
+            (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+          document.documentElement.dataset.theme = theme;
+          document
+            .querySelector('meta[name="theme-color"]')
+            .setAttribute("content", theme === "light" ? "#f7f6f2" : "#0c0c0b");
+        } catch (e) {
+          document.documentElement.dataset.theme = "dark";
+        }
+      })();
+    </script>
+
+    <title>Rahul Paswan — Software Engineer | Backend, Cloud & AI</title>
+    <meta
+      name="description"
+      content="Software Engineer building backend and event-driven systems on AWS at an InsurTech company in Gurgaon. Builder of Healibrate (SaaS), AI workflows with LangGraph and RAG, and writing for founders."
+    />
+    <meta name="author" content="Rahul Paswan" />
+
+    <!--
+      Open Graph / Twitter.
+      TODO: once this is live on a domain, set og:url and make og:image absolute
+      (e.g. https://your-domain.com/og.jpg) — most scrapers ignore relative paths.
+    -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Rahul Paswan" />
+    <meta property="og:title" content="Rahul Paswan — Software Engineer | Backend, Cloud & AI" />
+    <meta
+      property="og:description"
+      content="Backend and cloud engineer. Building production systems on AWS, a SaaS product, and AI workflows — and writing about all three."
+    />
+    <meta property="og:image" content="/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Rahul Paswan — I build the systems that run behind the product." />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Rahul Paswan — Software Engineer | Backend, Cloud & AI" />
+    <meta
+      name="twitter:description"
+      content="Backend and cloud engineer. Building production systems on AWS, a SaaS product, and AI workflows — and writing about all three."
+    />
+    <meta name="twitter:image" content="/og.jpg" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!--
+      Cabinet Grotesk (display) + Satoshi (text) from Fontshare, JetBrains Mono
+      for metadata. Deliberately not Inter or Instrument Serif: that pairing has
+      become the default look of generated sites.
+    -->
+    <link rel="preconnect" href="https://api.fontshare.com" />
+    <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!--
+      One request per family on purpose: Fontshare's API silently drops the
+      second f[] when two families are combined, which loads the CSS with no
+      error and leaves the display face falling back.
+    -->
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Rahul Paswan",
+        "jobTitle": "Associate Software Engineer",
+        "email": "mailto:rahulpaswandoon@gmail.com",
+        "worksFor": { "@type": "Organization", "name": "AegisCovenant" },
+        "address": { "@type": "PostalAddress", "addressLocality": "Gurgaon", "addressCountry": "IN" },
+        "knowsAbout": [
+          "Backend engineering",
+          "Node.js",
+          "TypeScript",
+          "AWS",
+          "Event-driven architecture",
+          "Retrieval-augmented generation",
+          "SaaS"
+        ],
+        "sameAs": [
+          "https://www.linkedin.com/in/rahul-paswan-78162a238/",
+          "https://twitter.com/RahulPaswa61922",
+          "https://medium.com/@rahulpaswandoon",
+          "https://forg.to/@rahulpaswandoon",
+          "https://leetcode.com/paswan_rahul/"
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

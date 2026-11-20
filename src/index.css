@@ -1,0 +1,184 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * The whole colour system. Components only ever use the Tailwind names
+ * (bg, surface, raised, ink, muted, line, accent), which read these channels.
+ * Light is warm paper, dark is a near-neutral charcoal. One accent: a
+ * "system running" green, used for signals (live dots, pulses, focus), never
+ * for big fills.
+ */
+@layer base {
+  :root {
+    --nav: 72px;
+    --bg: 247 246 242;
+    --surface: 255 255 255;
+    --raised: 239 238 233;
+    --ink: 23 23 21;
+    --muted: 94 93 87;
+    --line: 23 23 21;
+    --accent: 22 128 61;
+    --on-ink: 247 246 242;
+    color-scheme: light;
+  }
+
+  [data-theme="dark"] {
+    --bg: 12 12 11;
+    --surface: 21 21 20;
+    --raised: 30 30 28;
+    --ink: 242 241 236;
+    --muted: 162 161 153;
+    --line: 242 241 236;
+    --accent: 74 222 128;
+    --on-ink: 12 12 11;
+    color-scheme: dark;
+  }
+
+  @media (max-width: 639px) {
+    :root { --nav: 60px; }
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--nav) + 16px);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-bg font-sans text-ink antialiased;
+    font-size: 16px;
+    line-height: 1.6;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection { @apply bg-accent/25 text-ink; }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent));
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+@layer components {
+  .wrap { @apply mx-auto w-full max-w-wrap px-6 md:px-10; }
+
+  /* One hairline for the whole site. */
+  .hairline { border-color: rgb(var(--line) / 0.12); }
+
+  .label { @apply font-mono text-[13px] font-medium text-muted; }
+
+  .h2 {
+    @apply font-display font-extrabold tracking-[-0.02em] text-ink;
+    font-size: clamp(34px, 2.2vw + 22px, 56px);
+    line-height: 1.02;
+  }
+
+  .lead { @apply max-w-measure text-[17px] leading-relaxed text-muted md:text-lg; }
+
+  /* One card recipe. A linked card lifts 2px and its border darkens a step. */
+  .card {
+    @apply rounded-2xl border bg-surface hairline;
+    transition: transform 180ms cubic-bezier(.2,.8,.2,1), border-color 140ms, box-shadow 180ms;
+  }
+  @media (hover: hover) {
+    a.card:hover, .card-link:hover {
+      transform: translateY(-2px);
+      border-color: rgb(var(--line) / 0.24);
+      box-shadow: 0 12px 24px -12px rgb(0 0 0 / 0.12);
+    }
+  }
+
+  /* Buttons: one primary (ink fill), one secondary (outline). Step up on hover,
+     press down on click. */
+  .btn {
+    @apply inline-flex h-11 select-none items-center justify-center gap-2 whitespace-nowrap rounded-full px-6 text-[15px] font-medium;
+    transition: transform 140ms cubic-bezier(.2,.8,.2,1), background-color 140ms, border-color 140ms, color 140ms;
+  }
+  .btn-primary { @apply bg-ink text-on-ink; }
+  .btn-secondary { @apply border bg-transparent text-ink; border-color: rgb(var(--line) / 0.2); }
+  @media (hover: hover) {
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary:hover { background-color: rgb(var(--ink) / 0.86); }
+    .btn-secondary:hover { background-color: rgb(var(--line) / 0.05); border-color: rgb(var(--line) / 0.35); }
+    .btn:hover .arrow, a:hover > .arrow, .card-link:hover .arrow { transform: translateX(3px); }
+  }
+  .btn:active { transform: translateY(1px) scale(.985); transition-duration: 90ms; }
+  .arrow { transition: transform 140ms cubic-bezier(.2,.8,.2,1); }
+
+  /* Text link: a faint hairline at rest, an ink line draws left to right. */
+  .link {
+    @apply text-ink;
+    background-image: linear-gradient(rgb(var(--ink)), rgb(var(--ink))), linear-gradient(rgb(var(--line) / 0.2), rgb(var(--line) / 0.2));
+    background-size: 0% 1px, 100% 1px;
+    background-position: 0 100%, 0 100%;
+    background-repeat: no-repeat;
+    padding-bottom: 2px;
+    transition: background-size 200ms cubic-bezier(.2,.8,.2,1);
+  }
+  .link:hover { background-size: 100% 1px, 100% 1px; }
+
+  /* Nav and footer words: bare, a 1px line draws 4px under on hover. */
+  .navlink { @apply relative text-[15px] font-medium text-muted transition-colors hover:text-ink; }
+  .navlink::after {
+    content: "";
+    @apply absolute -bottom-1 left-0 h-px w-full bg-ink;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 200ms cubic-bezier(.2,.8,.2,1);
+  }
+  .navlink:hover::after, .navlink[aria-current="true"]::after { transform: scaleX(1); transform-origin: left; }
+
+  .chip { @apply inline-flex items-center rounded-full border px-3 py-1 text-[13px] text-muted hairline; }
+
+  /* Real logos sit on a white tile in both themes, so their own colours
+     (including dark marks like Vercel and Express) always read. */
+  .logo-tile { @apply inline-flex shrink-0 items-center justify-center rounded-lg bg-white ring-1 ring-black/5; }
+
+  /* A live dot: the dot stays still, a ring grows and fades. */
+  .live { @apply relative inline-block h-2 w-2 rounded-full bg-accent; }
+  .live::after {
+    content: "";
+    @apply absolute inset-0 rounded-full bg-accent;
+    animation: live-ring 2.4s cubic-bezier(.2,.8,.2,1) infinite;
+  }
+}
+
+@keyframes live-ring {
+  0% { transform: scale(1); opacity: 0.6; }
+  70%, 100% { transform: scale(3); opacity: 0; }
+}
+
+/* Hero lights: two soft glows drifting slowly behind the product deck. */
+.hero-light { animation: drift 16s ease-in-out infinite alternate; will-change: transform; }
+.hero-light--b { animation-duration: 21s; animation-direction: alternate-reverse; }
+@keyframes drift {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-6%, 8%, 0) scale(1.08); }
+  100% { transform: translate3d(5%, -4%, 0) scale(0.96); }
+}
+
+/* A pulse travelling along a diagram edge (offset-path is set inline). */
+@keyframes travel {
+  0% { offset-distance: 0%; opacity: 0; }
+  12% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+
+/* View-transition theme wipe: let the circle clip do the work. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
